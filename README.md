@@ -179,5 +179,5 @@ This project is [MIT licensed](LICENSE).
 - All contributors and supporters of affordable agricultural automation!
 
 <p align="left">
-  <img src="https://nestjs.com/img/logo-small.svg" width="20" alt="Nest Logo" />
+  <img src="https://nestjs.com/img/logo-small.svg" width="21" alt="Nest Logo" />
 </p>
