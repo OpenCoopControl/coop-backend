@@ -14,6 +14,12 @@ export class Device extends Document {
 
   @Prop()
   lastSeen: Date;
+
+  @Prop({ default: '' })
+  name: string;
+
+  @Prop({ default: '' })
+  type: string;
 }
 
 export const DeviceSchema = SchemaFactory.createForClass(Device);

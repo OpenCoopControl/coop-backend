@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Get, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  UseGuards,
+  Req,
+  Param,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { AuthRequest } from '../common/interfaces/auth-request.interface';
@@ -8,6 +16,7 @@ import {
   ApiResponse,
   ApiBody,
   ApiBearerAuth,
+  ApiParam,
 } from '@nestjs/swagger';
 import { CreateUserDto } from 'src/common/dto/create-user.dto';
 
@@ -23,6 +32,19 @@ export class UsersController {
   @ApiResponse({ status: 409, description: 'Email already exists' })
   async register(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
+  }
+
+  @Get('verify/:token')
+  @ApiOperation({ summary: 'Verify user email' })
+  @ApiParam({ name: 'token', description: 'Email verification token' })
+  @ApiResponse({ status: 200, description: 'Email verified successfully' })
+  @ApiResponse({
+    status: 404,
+    description: 'Invalid or expired verification token',
+  })
+  async verifyEmail(@Param('token') token: string) {
+    await this.usersService.verifyEmail(token);
+    return { message: 'Email verified successfully' };
   }
 
   @Get('me')

@@ -1,18 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { Server } from 'socket.io';
-import { WebsocketsGateway } from './websockets.gateway';
 
 @Injectable()
 export class WebsocketsService {
-  constructor(private readonly websocketsGateway: WebsocketsGateway) {}
+  private server: Server;
+
+  setServer(server: Server) {
+    this.server = server;
+  }
 
   broadcastUpdate(deviceId: string, status: string) {
-    const server: Server = this.websocketsGateway.server;
-    server.emit('status_update', { deviceId, status });
+    if (this.server) {
+      this.server.emit('status_update', { deviceId, status });
+    }
   }
 
   sendAction(deviceId: string, action: string) {
-    const server: Server = this.websocketsGateway.server;
-    server.to(deviceId).emit('action', { action });
+    if (this.server) {
+      this.server.to(deviceId).emit('action', { action });
+    }
   }
 }
